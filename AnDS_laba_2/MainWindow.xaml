@@ -10,7 +10,7 @@
         <viewModel:MainViewModel/>
     </Window.DataContext>
     <Grid
-            Name="FractalGrid">
+            Name="Grid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50"/>
                 <RowDefinition Height="50"/>
@@ -36,17 +36,26 @@
                 Grid.Column="2"
                 Command="{Binding EnableHanoiTowerModeCommand}"/>
             <Canvas
-                HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
+                Name="Canvas"
+                Height="400"
+                Width="400"
                 Grid.Row="2"
                 Grid.Column="1"
                 Grid.ColumnSpan="3"/>
             <StackPanel
+                Width="400"
                 Grid.Row="3"
                 Grid.Column="1"
                 Grid.ColumnSpan="3"
                 Orientation="Horizontal">
-                <Button/>
+                <Button
+                    Height="50"
+                    Width="75"
+                    Margin="150 0 0 0"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Content="Click me!!!"
+                    Command="{Binding DrawFractalCommand}"/>
                 <Slider/>
                 <Slider
                     Visibility="Collapsed"/>

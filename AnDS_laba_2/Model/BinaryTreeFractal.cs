@@ -13,20 +13,11 @@ public class BinaryTreeFractal
     private const double LengthScale = 0.75;
     private const double DeltaTheta = Math.PI / 5;
     
-    public Task<Canvas> DrawBinaryTree(int depth, int height, int width)
+    public Task<Canvas> Draw(Canvas canvas, int depth)
     {
-        return Application.Current.Dispatcher.Invoke(() =>
-        {
-            var canvas = new Canvas
-            {
-                Height = height,
-                Width = width,
-                Visibility = Visibility.Visible
-            };
-            DrawBinaryTree(canvas, depth, new Point(canvas.Width / 2, 0.83 * canvas.Height),
-                0.2 * canvas.Width, -Math.PI / 2);
-            return Task.FromResult(canvas);
-        });
+        DrawBinaryTree(canvas, depth, new Point(canvas.Width / 2, 0.83 * canvas.Height), 
+            0.2 * canvas.Width, -Math.PI / 2);
+        return Task.FromResult(canvas);
     }
 
     private static void DrawBinaryTree(Panel canvas, int depth, Point pt, double length, double theta)
