@@ -3,10 +3,53 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:AnDS_laba_2"
+        xmlns:viewModel="clr-namespace:AnDS_laba_2.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
-    </Grid>
+        Title="MainWindow" Height="700" Width="1000">
+    <Window.DataContext>
+        <viewModel:MainViewModel/>
+    </Window.DataContext>
+    <Grid
+            Name="FractalGrid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="200"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="50"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Content="Fractal"
+                Grid.Row="1"
+                Grid.Column="1"
+                Command="{Binding EnableFractalModeCommand}"/>
+            <Button
+                Content="Hanoi Towers"
+                Grid.Row="1"
+                Grid.Column="2"
+                Command="{Binding EnableHanoiTowerModeCommand}"/>
+            <Canvas
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                Grid.Row="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"/>
+            <StackPanel
+                Grid.Row="3"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                Orientation="Horizontal">
+                <Button/>
+                <Slider/>
+                <Slider
+                    Visibility="Collapsed"/>
+            </StackPanel>
+        </Grid>
 </Window>
