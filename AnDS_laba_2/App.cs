@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using AnDS_laba_2.View;
 
 namespace AnDS_laba_2;
 
