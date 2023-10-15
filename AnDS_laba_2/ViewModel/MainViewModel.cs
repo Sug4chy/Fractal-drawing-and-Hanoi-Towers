@@ -75,7 +75,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
     public ICommand DrawFractalCommand { get; init; } = null!;
     public ICommand EnableFractalModeCommand { get; init; } = null!;
     public ICommand EnableHanoiTowerModeCommand { get; init; } = null!;
-    public ICommand StartTowersCommand { get; init; } = null!;
+    public ICommand StartTowersCommand { get; private set; } = null!;
 
     public MainViewModel() { }
 
@@ -85,8 +85,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
         DrawFractalCommand = new RelayCommand(DrawBinaryTree, _ => !IsDrawing);
         EnableFractalModeCommand = new RelayCommand(EnableFractalMode, _ => _mode);
         EnableHanoiTowerModeCommand = new RelayCommand(EnableHanoiTowerMode, _ => !_mode);
-        StartTowersCommand = new RelayCommand(StartTowers, 
-            _ => !IsDrawing || !(_page.DataContext as HanoiTowersViewModel)!.IsDoing);
+        StartTowersCommand = new RelayCommand(StartTowers);
     }
 
     private void EnableFractalMode(object? o)
@@ -115,6 +114,8 @@ public sealed class MainViewModel : INotifyPropertyChanged
         _mainWindow.Canvas.Visibility = Visibility.Collapsed;
         
         _mode = true;
+        StartTowersCommand = new RelayCommand(StartTowers, 
+            _ => !IsDrawing || !(_page.DataContext as HanoiTowersViewModel)!.IsDoing);
     }
 
     private async void DrawBinaryTree(object? o)

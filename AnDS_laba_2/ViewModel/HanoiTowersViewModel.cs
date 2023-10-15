@@ -18,7 +18,7 @@ public sealed class HanoiTowersViewModel : INotifyPropertyChanged
 {
     private readonly HanoiTowersPage _page = null!;
     private readonly List<(int from, int to)> _steps = new();
-    private ObservableCollection<string> _stepStrings = null!;
+    private List<string> _stepStrings = null!;
     private bool _canDoNextStep;
     private int _currentStep;
     private HanoiTowersMode _mode;
@@ -36,16 +36,6 @@ public sealed class HanoiTowersViewModel : INotifyPropertyChanged
         }
     }
 
-    public ObservableCollection<string> StepStrings
-    {
-        get => _stepStrings;
-        set
-        {
-            _stepStrings = value;
-            OnPropertyChanged();
-        }
-    }
-
     public ICommand NextStepCommand { get; init; } = null!;
 
     public HanoiTowersViewModel(HanoiTowersPage page)
@@ -59,10 +49,11 @@ public sealed class HanoiTowersViewModel : INotifyPropertyChanged
 
     private void Init()
     {
+        _steps.Clear();
+        _currentStep = 0;
         HanoiTower.DrawRings(_ringsCount, 700.0 / 3 + 50, _page.Pole1);
         HanoiTower.MoveDisks(1, 2, 3, _ringsCount, _steps);
-        _stepStrings = new ObservableCollection<string>(_steps.Select(step => $"{step.from} => {step.to}").ToList());
-        OnPropertyChanged(nameof(MainViewModel.StepsAsStrings));
+        _stepStrings = _steps.Select(step => $"{step.from} => {step.to}").ToList();
     }
 
     private void NextStep(object? o)
@@ -86,7 +77,7 @@ public sealed class HanoiTowersViewModel : INotifyPropertyChanged
         }
         catch (Exception)
         {
-            MessageBox.Show("Completed!");
+            MessageBox.Show("Algorithm is already completed!");
             IsDoing = false;
         }
     }
