@@ -5,11 +5,121 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:viewModel="clr-namespace:AnDS_laba_2.ViewModel"
       mc:Ignorable="d"
-      Title="HanoiTowersPage" Height="450" Width="800">
+      Title="HanoiTowersPage" Height="820" Width="1000">
     <Page.DataContext>
         <viewModel:HanoiTowersViewModel/>
     </Page.DataContext>
-    <Grid>
+    <Grid
+        Name="Grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="70"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="25"/>
+        </Grid.ColumnDefinitions>
+        <Button
+            Grid.Row="1"
+            Content="Next step"
+            Command="{Binding NextStepCommand}"/>
+        <Button
+            Grid.Row="1"
+            Grid.Column="1"
+            Content="Auto"
+            Command="{Binding AutoCommand}"/>
+        <Rectangle
+            Grid.Row="2"
+            Grid.Column="2"
+            Grid.RowSpan="2"
+            Fill="Gray"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Panel.ZIndex="1"/>
+        <StackPanel
+            Name="Pole1"
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Panel.ZIndex="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"/>
+        <Rectangle
+            Grid.Row="3"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Fill="Gray"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            RadiusX="15"
+            RadiusY="15"/>
         
+        <Rectangle
+            Grid.Row="2"
+            Grid.Column="6"
+            Grid.RowSpan="2"
+            Fill="Gray"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Panel.ZIndex="1"/>
+        <StackPanel
+            Name="Pole2"
+            Grid.Row="2"
+            Grid.Column="5"
+            Grid.ColumnSpan="3"
+            Panel.ZIndex="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom">
+        </StackPanel>
+        <Rectangle
+            Grid.Row="3"
+            Grid.Column="5"
+            Grid.ColumnSpan="3"
+            Fill="Gray"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            RadiusX="15"
+            RadiusY="15"/>
+        
+        <Rectangle
+            Grid.Row="2"
+            Grid.Column="10"
+            Grid.RowSpan="2"
+            Fill="Gray"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            Panel.ZIndex="1"/>
+        <StackPanel
+            Name="Pole3"
+            Grid.Row="2"
+            Grid.Column="9"
+            Grid.ColumnSpan="3"
+            Panel.ZIndex="2"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom">
+        </StackPanel>
+        <Rectangle
+            Grid.Row="3"
+            Grid.Column="9"
+            Grid.ColumnSpan="3"
+            Fill="Gray"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch"
+            RadiusX="15"
+            RadiusY="15"/>
     </Grid>
 </Page>

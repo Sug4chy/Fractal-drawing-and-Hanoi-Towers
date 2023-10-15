@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
 using AnDS_laba_2.Model;
 using AnDS_laba_2.View;
 
@@ -54,15 +52,25 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     private void EnableFractalMode(object? o)
     {
+
+        _mainWindow.Frame.Content = null;
+        _mainWindow.Frame.Visibility = Visibility.Collapsed;
+        
         _mainWindow.FractalPanel.Visibility = Visibility.Visible;
         _mainWindow.Canvas.Visibility = Visibility.Visible;
+        
         _mode = false;
     }
 
     private void EnableHanoiTowerMode(object? o)
     {
+        _mainWindow.Frame.Visibility = Visibility.Visible;
+        var page = new HanoiTowersPage();
+        _mainWindow.Frame.Content = page;
+        
         _mainWindow.FractalPanel.Visibility = Visibility.Collapsed;
         _mainWindow.Canvas.Visibility = Visibility.Collapsed;
+        
         _mode = true;
     }
 

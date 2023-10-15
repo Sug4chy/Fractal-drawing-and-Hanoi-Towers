@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:AnDS_laba_2.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1000">
+        Title="MainWindow" Height="1050" Width="1350">
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
@@ -36,11 +36,20 @@
                 Command="{Binding EnableHanoiTowerModeCommand}"/>
             <Canvas
                 Name="Canvas"
-                Height="400"
+                Height="750"
                 Width="400"
                 Grid.Row="2"
                 Grid.Column="1"
                 Grid.ColumnSpan="3"/>
+            <Frame
+                Name="Frame"
+                Height="750"
+                Width="750"
+                Grid.Row="2"
+                Grid.Column="1"
+                Grid.ColumnSpan="3"
+                NavigationUIVisibility="Hidden"
+                Visibility="Collapsed"/>
             <StackPanel
                 Name="FractalPanel"
                 Width="400"
