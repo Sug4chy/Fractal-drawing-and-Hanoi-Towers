@@ -6,7 +6,7 @@ using System.Windows.Shapes;
 
 namespace AnDS_laba_2.Model;
 
-public class HanoiTower
+public static class HanoiTower
 {
     
     public static void DrawRings(int ringsCount, double startWidth, StackPanel pole)
@@ -17,7 +17,7 @@ public class HanoiTower
         {
             var ring = new Rectangle
             {
-                Height = 50,
+                Height = 40,
                 Width = startWidth - (i + 1) * widthScale,
                 RadiusX = 15,
                 RadiusY = 15,

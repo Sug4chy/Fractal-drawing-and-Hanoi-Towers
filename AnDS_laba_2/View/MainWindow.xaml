@@ -5,87 +5,124 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModel="clr-namespace:AnDS_laba_2.ViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1050" Width="1350">
+        Title="MainWindow" Height="800" Width="1300">
     <Window.DataContext>
         <viewModel:MainViewModel/>
     </Window.DataContext>
-    <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="50"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="200"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="50"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+    <Grid
+        Background="LightCyan"
+        Name="Grid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="620"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="850"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Button
+            Grid.Row="0"
+            Grid.Column="1"
+            Content="Fractal"
+            Command="{Binding EnableFractalModeCommand}"/>
+        <Button
+            Grid.Row="0"
+            Grid.Column="2"
+            Content="Towers"
+            Command="{Binding EnableHanoiTowerModeCommand}"/>
+        <Canvas
+            Name="Canvas"
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="620"
+            Width="1000"
+            Background="White"/>
+        <Frame
+            Name="Frame"
+            Grid.Row="1"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Height="620"
+            Width="1000"
+            Visibility="Collapsed"/>
+        <StackPanel
+            Orientation="Horizontal"
+            VerticalAlignment="Bottom"
+            Name="FractalPanel"
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="3">
             <Button
-                Content="Fractal"
-                Grid.Row="1"
-                Grid.Column="1"
-                Command="{Binding EnableFractalModeCommand}"/>
+                Margin="150 0 0 50"
+                Height="40"
+                Width="60"
+                Content="Draw"
+                Command="{Binding DrawFractalCommand}"/>
+            <Slider
+                Orientation="Horizontal"
+                Margin="50 0 0 50"
+                Width="500"
+                Value="{Binding SliderValue, UpdateSourceTrigger=PropertyChanged}"
+                TickFrequency="1"
+                IsSnapToTickEnabled="True"
+                Maximum="15"
+                Minimum="1"/>
+            <TextBox
+                Margin="50 0 0 50"
+                Width="50"
+                Height="30"
+                Text="{Binding SliderValue, UpdateSourceTrigger=PropertyChanged}"
+                TextAlignment="Center"/>
+        </StackPanel>
+        <StackPanel
+            Name="TowersPanel"
+            Grid.Row="2"
+            Grid.Column="1"
+            Grid.ColumnSpan="3"
+            Visibility="Collapsed"
+            Orientation="Horizontal">
             <Button
-                Content="Hanoi Towers"
-                Grid.Row="1"
-                Grid.Column="2"
-                Command="{Binding EnableHanoiTowerModeCommand}"/>
-            <Canvas
-                Name="Canvas"
-                Height="750"
-                Width="400"
-                Grid.Row="2"
-                Grid.Column="1"
-                Grid.ColumnSpan="3"/>
-            <Frame
-                Name="Frame"
-                Height="750"
-                Width="750"
-                Grid.Row="2"
-                Grid.Column="1"
-                Grid.ColumnSpan="3"
-                NavigationUIVisibility="Hidden"
-                Visibility="Collapsed"/>
-            <StackPanel
-                Name="FractalPanel"
-                Width="400"
-                Grid.Row="3"
-                Grid.Column="1"
-                Grid.ColumnSpan="3"
-                Orientation="Horizontal">
-                <Button
-                    Height="50"
-                    Width="75"
-                    Margin="150 0 0 0"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Content="Click me!!!"
-                    Command="{Binding DrawFractalCommand}"/>
-                <StackPanel
-                    Margin="100 0 0 0"
-                    Height="160"
-                    Width="50">
-                <Slider
-                    Height="100"
-                    Width="40"
-                    Orientation="Vertical"
-                    TickFrequency="1"
-                    Margin="0 0 0 10"
-                    IsSnapToTickEnabled="True"
-                    Value="{Binding SliderValue, UpdateSourceTrigger=PropertyChanged}"
-                    Minimum="1"
-                    Maximum="15"/>
-                <TextBox
-                    Text="{Binding SliderValue, UpdateSourceTrigger=PropertyChanged}"
-                    Height="30"
-                    FontSize="13"
-                    TextAlignment="Center"
-                    Width="50"/>
-                </StackPanel>
+                Content="Go"
+                Margin="150 0 0 50"
+                Height="40"
+                Width="60"
+                Command="{Binding StartTowersCommand}"/>
+            <Slider
+                Orientation="Horizontal"
+                Margin="50 0 0 50"
+                Width="500"
+                Value="{Binding RingsCountValue, UpdateSourceTrigger=PropertyChanged}"
+                TickFrequency="1"
+                IsSnapToTickEnabled="True"
+                Maximum="10"
+                Minimum="1"/>
+            <TextBox
+                Margin="50 0 0 50"
+                Width="50"
+                Height="30"
+                Text="{Binding RingsCountValue, UpdateSourceTrigger=PropertyChanged}"
+                TextAlignment="Center"/>
+            <StackPanel>
+                <CheckBox
+                    Name="ModeCheckBox"
+                    Content="Auto-mode"
+                    IsThreeState="False"
+                    IsChecked="{Binding CheckBoxValue, UpdateSourceTrigger=PropertyChanged}"/>
             </StackPanel>
-        </Grid>
+        </StackPanel>
+        <ListBox
+            Name="TowersSteps"
+            Grid.Row="0"
+            Grid.Column="4"
+            Grid.RowSpan="3"
+            Width="250"
+            Height="800"
+            HorizontalAlignment="Right"
+            Visibility="Collapsed"/>
+    </Grid>
 </Window>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -17,9 +18,13 @@ public sealed class HanoiTowersViewModel : INotifyPropertyChanged
 {
     private readonly HanoiTowersPage _page = null!;
     private readonly List<(int from, int to)> _steps = new();
-    private List<string> _stepStrings = null!;
-    private bool _canDoNextStep = true;
+    private ObservableCollection<string> _stepStrings = null!;
+    private bool _canDoNextStep;
     private int _currentStep;
+    private HanoiTowersMode _mode;
+    private int _ringsCount;
+
+    public bool IsDoing { get; private set; }
 
     private bool CanDoNextStep
     {
@@ -31,40 +36,59 @@ public sealed class HanoiTowersViewModel : INotifyPropertyChanged
         }
     }
 
-    public List<string> StepStrings => _stepStrings;
+    public ObservableCollection<string> StepStrings
+    {
+        get => _stepStrings;
+        set
+        {
+            _stepStrings = value;
+            OnPropertyChanged();
+        }
+    }
 
     public ICommand NextStepCommand { get; init; } = null!;
-    public ICommand AutoCommand { get; init; } = null!;
 
     public HanoiTowersViewModel(HanoiTowersPage page)
     {
         _page = page;
-        NextStepCommand = new RelayCommand(NextStep, _ => CanDoNextStep);
-        AutoCommand = new RelayCommand(Auto);
-        Init();
+        NextStepCommand = new RelayCommand(NextStep, 
+            _ => CanDoNextStep && _mode == HanoiTowersMode.NotAuto);
     }
 
     public HanoiTowersViewModel() { }
 
     private void Init()
     {
-        HanoiTower.DrawRings(5, 700.0 / 3 + 50, _page.Pole1);
-        HanoiTower.MoveDisks(1, 2, 3, 5, _steps);
-        _stepStrings = _steps.Select(step => $"{step.from} => {step.to}").ToList();
+        HanoiTower.DrawRings(_ringsCount, 700.0 / 3 + 50, _page.Pole1);
+        HanoiTower.MoveDisks(1, 2, 3, _ringsCount, _steps);
+        _stepStrings = new ObservableCollection<string>(_steps.Select(step => $"{step.from} => {step.to}").ToList());
+        OnPropertyChanged(nameof(MainViewModel.StepsAsStrings));
     }
 
-    private async void NextStep(object? o)
-        => await NextStepAsync();
+    private void NextStep(object? o)
+        => NextStepAsync();
 
     private async Task NextStepAsync()
     {
-        CanDoNextStep = false;
-        var step = _steps[_currentStep];
-        _stepStrings.Add($"{step.from} => {step.to}");
-        _currentStep++;
-        var ring = GetRingFrom(step.from);
-        await MoveRing(step.from, step.to, ring);
-        CanDoNextStep = true;
+        try
+        {
+            if (!IsDoing)
+            {
+                IsDoing = true;
+            }
+            CanDoNextStep = false;
+            var step = _steps[_currentStep];
+            _stepStrings.Add($"{step.from} => {step.to}");
+            _currentStep++;
+            var ring = GetRingFrom(step.from);
+            await MoveRing(step.from, step.to, ring);
+            CanDoNextStep = true;
+        }
+        catch (Exception)
+        {
+            MessageBox.Show("Completed!");
+            IsDoing = false;
+        }
     }
 
     private Rectangle GetRingFrom(int poleNumber)
@@ -146,12 +170,33 @@ public sealed class HanoiTowersViewModel : INotifyPropertyChanged
         }
     }
 
-    private async void Auto(object? o)
+    private async void Auto()
     {
+        IsDoing = true;
         foreach (var _ in _steps)
         {
             await NextStepAsync();
             await Task.Delay(500);
+        }
+
+        IsDoing = false;
+    }
+
+    public void Start(HanoiTowersMode mode, int ringsCount)
+    {
+        _page.Pole1.Children.Clear();
+        _page.Pole2.Children.Clear();
+        _page.Pole3.Children.Clear();
+        _mode = mode;
+        _ringsCount = ringsCount;
+        Init();
+        if (_mode == HanoiTowersMode.Auto)
+        {
+            Auto();
+        }
+        else
+        {
+            CanDoNextStep = true;
         }
     }
     

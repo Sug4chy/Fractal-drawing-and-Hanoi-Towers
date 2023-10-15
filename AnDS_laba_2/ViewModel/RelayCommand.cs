@@ -3,7 +3,7 @@ using System.Windows.Input;
 
 namespace AnDS_laba_2.ViewModel;
 
-public class RelayCommand : ICommand
+public sealed class RelayCommand : ICommand
 {
     private readonly Action<object?> _execute;
     private readonly Predicate<object?>? _canExecute;
