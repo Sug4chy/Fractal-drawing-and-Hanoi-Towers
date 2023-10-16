@@ -49,7 +49,8 @@
             Grid.ColumnSpan="3"
             Height="620"
             Width="1000"
-            Visibility="Collapsed"/>
+            Visibility="Collapsed"
+            NavigationUIVisibility="Hidden"/>
         <StackPanel
             Orientation="Horizontal"
             VerticalAlignment="Bottom"
