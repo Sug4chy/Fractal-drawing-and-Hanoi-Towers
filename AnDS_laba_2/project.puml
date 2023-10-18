@@ -1,0 +1,100 @@
+﻿@startuml
+/'
+class MainWindow {
+    +<<constructor>>\nMainWindow()
+}
+
+class MainViewModel {
+    -_mainWindow: MainWindow
+    -_page: HanoiTowersPage
+    -_mode: bool
+    -_sliderValue: int
+    -_isDrawing: bool
+    -_ringsCountValue: int
+    -_checkBoxValue: bool
+
+    +StepsAsStrings: ObservableCollection<string> 
+    +CheckBoxValue: bool
+    +RingsCountValue: int
+    +SliderValue: int
+    +IsDrawing: bool   
+    +DrawFractalCommand: ICommand
+    +EnableFractalModeCommand: ICommand
+    +EnableHanoiTowerModeCommand: ICommand
+    +StartTowersCommand: ICommand
+    +<<event>>\nPropertyChanged: PropertyChangedEventHandler?
+    
+    +<<constructor>>\nMainViewModel()
+    +<<constructor>>\nMainViewModel(MainWindow mainWindow)
+    -EnableFractalMode(object? o): void
+    -EnableHanoiTowerMode(object? o): void
+    -<<async>>\nDrawBinaryTree(object? o): void    
+    -StartTowers(object? o): void
+    -OnPropertyChanged([CallerMemberName] string? propertyName = null): void
+}
+
+MainWindow <.. MainViewModel
+'/
+class RelayCommand {
+    -Action<object?> _execute
+    -Predicate<object?>? _canExecute
+    +<<event>>\nEventHandler? CanExecuteChanged
+    
+    +<<constructor>>\nRelayCommand(Action<object?> execute, Predicate<object?>? canExecute = null)
+    +CanExecute(object? parameter): bool
+    +Execute(object? parameter): void
+}
+/'
+class HanoiTowersPage {
+    +<<constructor>>\nHanoiTowersPage()
+    +StartDoing(HanoiTowersMode mode, int ringsCount): void
+}
+
+class HanoiTowersViewModel {
+    -_page: HanoiTowersPage
+    -_steps: List<(int from, int to)>
+    -_stepStrings: List<string>
+    -_canDoNextStep: bool
+    -_currentStep: int
+    -_mode: HanoiTowersMode
+    -_ringsCount: int
+    
+    +IsDoing: bool
+    -CanDoNextStep: bool
+    +NextStepCommand: ICommand
+    +<<event>>\nPropertyChangedEventHandler? PropertyChanged;
+    
+    +<<constructor>>\nHanoiTowersViewModel(HanoiTowersPage page)
+    +<<constructor>>\nHanoiTowersViewModel()
+    -Init(): void
+    -NextStep(object? o): void
+    -<<async>>\nNextStepAsync(): Task
+    -GetRingFrom(int poleNumber): Rectangle
+    -<<async>>\nMoveRing(int from, int to, UIElement ring): Task
+    -<<async>>\nAuto(): void    
+    +Start(HanoiTowersMode mode, int ringsCount): void
+    -OnPropertyChanged([CallerMemberName] string? propertyName = null): void
+}
+
+HanoiTowersPage <.. HanoiTowersViewModel
+'/
+enum HanoiTowersMode {
+    Auto,
+    NotAuto
+}
+/'
+object BinaryTreeFractal {
+    -<<const>>\nLengthScale: double
+    -<<const>>\nDeltaTheta: double
+    
+    +<<async>>\n{static}Draw(Canvas canvas, int depth): Task
+    -<<async>>\n{static}DrawBinaryTree(Panel canvas, int depth, Point pt, double length, double theta): Task
+        
+}
+
+object HanoiTower {
+    +{static}DrawRings(int ringsCount, double startWidth, StackPanel pole): void
+    +{static}MoveDisks(int start, int temp, int end, int disks, List<(int from, int to)> steps): void
+}
+'/
+@enduml

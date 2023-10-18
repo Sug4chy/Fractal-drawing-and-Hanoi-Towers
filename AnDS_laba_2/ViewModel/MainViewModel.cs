@@ -21,14 +21,17 @@ public sealed class MainViewModel : INotifyPropertyChanged
     private int _ringsCountValue;
     private bool _checkBoxValue = true;
 
-    public ObservableCollection<string> StepsAsStrings
+    private IEnumerable<string> StepsAsStrings
     {
         get
         {
             var steps = new List<(int from, int to)>();
             HanoiTower.MoveDisks(1, 2, 3, _ringsCountValue, steps);
             return new ObservableCollection<string>(
-                steps.Select(step => $"{step.from} => {step.to}"));
+                steps.Select(step => $"{step.from} => {step.to}"))
+            {
+                $"Общее кол-во шагов: {steps.Count}"
+            };
         }
     }
 
@@ -85,7 +88,7 @@ public sealed class MainViewModel : INotifyPropertyChanged
         DrawFractalCommand = new RelayCommand(DrawBinaryTree, _ => !IsDrawing);
         EnableFractalModeCommand = new RelayCommand(EnableFractalMode, _ => _mode);
         EnableHanoiTowerModeCommand = new RelayCommand(EnableHanoiTowerMode, _ => !_mode);
-        StartTowersCommand = new RelayCommand(StartTowers);
+        StartTowersCommand = new RelayCommand(StartTowers, _ => !IsDrawing);
     }
 
     private void EnableFractalMode(object? o)
@@ -134,9 +137,11 @@ public sealed class MainViewModel : INotifyPropertyChanged
 
     private void StartTowers(object? o)
     {
+        IsDrawing = true;
         _mainWindow.TowersSteps.ItemsSource = StepsAsStrings;
         var mode = CheckBoxValue ? HanoiTowersMode.Auto : HanoiTowersMode.NotAuto;
         _page.StartDoing(mode, RingsCountValue);
+        IsDrawing = false;
     }
     
     public event PropertyChangedEventHandler? PropertyChanged;

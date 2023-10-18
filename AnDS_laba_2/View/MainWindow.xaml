@@ -122,7 +122,7 @@
             Grid.Column="4"
             Grid.RowSpan="3"
             Width="250"
-            Height="800"
+            Height="750"
             HorizontalAlignment="Right"
             Visibility="Collapsed"/>
     </Grid>

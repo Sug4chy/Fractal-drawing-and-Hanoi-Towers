@@ -8,7 +8,6 @@ namespace AnDS_laba_2.Model;
 
 public static class HanoiTower
 {
-    
     public static void DrawRings(int ringsCount, double startWidth, StackPanel pole)
     {
         var random = new Random();
